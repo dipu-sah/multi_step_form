@@ -5,8 +5,20 @@ import { PersonalInfoForm } from "./components/layouts/PersonalInfoForm/Personal
 import { SelectPlan } from "./components/layouts/SelectPlan/SelectPlan";
 import { AddOn } from "./components/layouts/AddOn/AddOn";
 import { Summary } from "./components/layouts/Summary/Summary";
+import { AppTextField } from "./components/UI/AppTextField/AppTextField";
 function App() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phoneNumber: "",
+    planType: {
+      name: "",
+      price: "",
+      type: "",
+    },
+    addOne: [],
+  });
   const allSteps = [
     {
       content: <PersonalInfoForm />,
@@ -31,39 +43,44 @@ function App() {
   ];
   return (
     <div className="h-screen flex  flex-col items-center justify-center">
-      <AppCard className="box-border p-4 flex flex-row gap-2 h-[900px] w-1/2">
+      <AppCard
+        className="box-border p-4 flex flex-row gap-2 h-[900px] w-1/2 rounded-3xl"
+        sx={{ borderRadius: "1.5rem" }}
+      >
         <aside
           className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] w-1/3 box-border p-4 text-white`}
         >
           <AppStepper currentStep={currentStep} steps={allSteps}></AppStepper>
         </aside>
-        <main className="flex flex-col grow">
-          <section className="h-full overflow-auto">
-            {allSteps[currentStep].content}
-          </section>
-          <div className="flex flex-row gap-2 w-full">
-            {currentStep > 0 && (
-              <button
-                onClick={() => {
-                  setCurrentStep(Math.max(0, currentStep - 1));
-                }}
-              >
-                Go back
-              </button>
-            )}
-            <div className="spacer grow"> </div>
-            {currentStep < allSteps.length - 1 && (
-              <button
-                onClick={() => {
-                  setCurrentStep(
-                    Math.min(allSteps.length - 1, currentStep + 1)
-                  );
-                }}
-              >
-                Next Step
-              </button>
-            )}
-          </div>
+        <main className="flex flex-col grow box-border px-8 py-4">
+          <form
+            className="flex flex-col gap-2 w-full h-full "
+            onSubmit={(e) => {
+              e.preventDefault();
+              setCurrentStep(Math.min(allSteps.length - 1, currentStep + 1));
+            }}
+          >
+            <section className="h-full overflow-auto grow">
+              {allSteps[currentStep].content}
+            </section>
+            <div className="flex flex-row">
+              {currentStep > 0 && (
+                <button
+                  onClick={() => {
+                    setCurrentStep(Math.max(0, currentStep - 1));
+                  }}
+                >
+                  Go back
+                </button>
+              )}
+              <div className="spacer grow"> </div>
+              {currentStep < allSteps.length - 1 && (
+                <button type="submit" onClick={() => {}}>
+                  Next Step
+                </button>
+              )}
+            </div>
+          </form>
         </main>
       </AppCard>
     </div>
