@@ -8,29 +8,29 @@ export function PersonalInfoForm() {
         Please provide your name, email address and phone number
       </p>
       <AppTextField
-        required={true}
+        // required={true}
         InputProps={{
           placeholder: "Name",
-          required: true,
+          // required: true,
         }}
       >
         Name
       </AppTextField>
       <AppTextField
-        required={true}
+        // required={true}
         InputProps={{
           placeholder: "Email Address",
-          required: true,
+          // required: true,
           type: "email",
         }}
       >
         Email Address
       </AppTextField>
       <AppTextField
-        required={true}
+        // required={true}
         InputProps={{
           placeholder: "eg +1 234 567 890",
-          required: true,
+          // required: true,
           type: "mobile",
         }}
       >

@@ -8,7 +8,7 @@ export function AppTextField({
   return (
     <FormControl className="flex flex-col gap-2">
       <FormLabel>{children}</FormLabel>
-      <TextField fullWidth size="small" {...props} required={true} />
+      <TextField fullWidth size="small" {...props} />
     </FormControl>
   );
 }

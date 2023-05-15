@@ -44,11 +44,11 @@ function App() {
   return (
     <div className="h-screen flex  flex-col items-center justify-center">
       <AppCard
-        className="box-border p-4 flex flex-row gap-2 h-[900px] w-1/2 rounded-3xl"
+        className="box-border p-4 flex flex-row gap-2 w-2/3 rounded-3xl "
         sx={{ borderRadius: "1.5rem" }}
       >
         <aside
-          className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] w-1/3 box-border p-4 text-white`}
+          className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-[568px] w-[274px]`}
         >
           <AppStepper currentStep={currentStep} steps={allSteps}></AppStepper>
         </aside>
@@ -68,6 +68,7 @@ function App() {
                 <button
                   onClick={() => {
                     setCurrentStep(Math.max(0, currentStep - 1));
+                    console.log(Math.max(0, currentStep - 1));
                   }}
                 >
                   Go back
