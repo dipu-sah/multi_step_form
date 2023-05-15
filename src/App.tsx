@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { AppCard } from "./components/UI/AppCard/AppCard";
 import { AppStepper } from "./components/UI/AppStepper/AppStepper";
 import { PersonalInfoForm } from "./components/layouts/PersonalInfoForm/PersonalInfoForm";
@@ -66,9 +66,9 @@ function App() {
             <div className="flex flex-row">
               {currentStep > 0 && (
                 <button
+                  type="button"
                   onClick={() => {
                     setCurrentStep(Math.max(0, currentStep - 1));
-                    console.log(Math.max(0, currentStep - 1));
                   }}
                 >
                   Go back
@@ -76,9 +76,7 @@ function App() {
               )}
               <div className="spacer grow"> </div>
               {currentStep < allSteps.length - 1 && (
-                <button type="submit" onClick={() => {}}>
-                  Next Step
-                </button>
+                <button type="submit">Next Step</button>
               )}
             </div>
           </form>
