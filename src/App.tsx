@@ -24,7 +24,7 @@ function App() {
   const allSteps: AppStepperProps["steps"] = [
     {
       content: <PersonalInfoForm />,
-      label: <p className="text-gray-500">Step 1</p>,
+      label: <p className="text-white font-thin">Step 1</p>,
       description: <p className=" font-bold text-white">Your Info</p>,
       labelProps: {
         StepIconComponent: (e) => {
@@ -43,7 +43,7 @@ function App() {
     },
     {
       content: <SelectPlan></SelectPlan>,
-      label: <p className="text-gray-500">Step 2</p>,
+      label: <p className="text-white font-thin">Step 2</p>,
       description: <p className=" font-bold text-white">Select Plan</p>,
       labelProps: {
         StepIconComponent: (e) => {
@@ -62,7 +62,7 @@ function App() {
     },
     {
       content: <AddOn></AddOn>,
-      label: <p className="text-gray-500">Step 3</p>,
+      label: <p className="text-white font-thin">Step 3</p>,
       description: <p className=" font-bold text-white">Add-ons </p>,
       labelProps: {
         StepIconComponent: (e) => {
@@ -81,7 +81,7 @@ function App() {
     },
     {
       content: <Summary></Summary>,
-      label: <p className="text-gray-500">Step 4</p>,
+      label: <p className="text-white font-thin">Step 4</p>,
       description: <p className=" font-bold text-white">Summary</p>,
       labelProps: {
         StepIconComponent: (e) => {
@@ -111,8 +111,13 @@ function App() {
           <AppStepper
             currentStep={currentStep}
             steps={allSteps}
-            connector={<></>}
-          ></AppStepper>
+            connector={<div className="h-4 aspect-square"></div>}
+            sx={{
+              ".MuiStepContent-root": {
+                display: "none",
+              },
+            }}
+          />
         </aside>
         <main className="flex flex-col grow box-border px-8 py-4">
           <form
