@@ -24,9 +24,9 @@ export function AppStepper({
         color="white"
         {...steppperProps}
       >
-        {steps.map(({ description, label, ...step }, index) => (
+        {steps.map(({ description, label, labelProps, ...step }, index) => (
           <Step key={index} {...step}>
-            <StepLabel>
+            <StepLabel {...labelProps}>
               {label}
               {description}
             </StepLabel>

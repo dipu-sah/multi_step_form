@@ -1,4 +1,4 @@
-import { StepProps, StepperProps } from "@mui/material";
+import { StepLabelProps, StepProps, StepperProps } from "@mui/material";
 
 export interface AppStepperProps extends StepperProps {
   children?: ReactNode[] | ReactNode;
@@ -7,6 +7,6 @@ export interface AppStepperProps extends StepperProps {
     content: ReactNode;
     label: ReactNode;
     description?: ReactNode;
-    sx?: StepProps["sx"];
+    labelProps?: StepLabelProps;
   }[];
 }
