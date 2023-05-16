@@ -106,9 +106,9 @@ export function SelectPlan() {
     freeMonths?: number;
   }) {
     return (
-      <div className="h-32 aspect-square box-border p-4">
+      <div className="aspect-square box-border p-4">
         <figure className="flex flex-col gap-8">
-          <img src={imageSrc} className="h-10 w-10 " />
+          <img src={imageSrc} className="h-8 w-8 " />
           <caption className="text-left flex flex-col gap-2">
             <h2>{planName}</h2>
             <p className="text-xs text-gray-500">${price}</p>
@@ -139,6 +139,7 @@ export function SelectPlan() {
               ...e,
               sx: {
                 height: "11rem",
+                aspectRatio: "1/1",
                 ...(currentPlan != e.value
                   ? { border: "1px solid grey" }
                   : { border: "1px solid blue", backgroundColor: "#483EFF10" }),
