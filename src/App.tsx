@@ -6,6 +6,7 @@ import { SelectPlan } from "./components/layouts/SelectPlan/SelectPlan";
 import { AddOn } from "./components/layouts/AddOn/AddOn";
 import { Summary } from "./components/layouts/Summary/Summary";
 import { AppTextField } from "./components/UI/AppTextField/AppTextField";
+import { AppButton } from "./components/UI/AppButton/AppButton";
 function App() {
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState({
@@ -44,11 +45,11 @@ function App() {
   return (
     <div className="h-screen flex  flex-col items-center justify-center">
       <AppCard
-        className="box-border p-4 flex flex-row gap-2 w-2/3 rounded-3xl "
+        className="box-border p-4 flex flex-row gap-2 w-2/5 rounded-3xl  h-[568px]"
         sx={{ borderRadius: "1.5rem" }}
       >
         <aside
-          className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-[568px] w-[274px]`}
+          className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-full w-[274px]`}
         >
           <AppStepper currentStep={currentStep} steps={allSteps}></AppStepper>
         </aside>
@@ -60,23 +61,30 @@ function App() {
               setCurrentStep(Math.min(allSteps.length - 1, currentStep + 1));
             }}
           >
-            <section className="h-full overflow-auto grow">
+            <section className="h-full overflow-scroll grow h-[568px]">
               {allSteps[currentStep].content}
             </section>
             <div className="flex flex-row">
               {currentStep > 0 && (
-                <button
+                <AppButton
                   type="button"
                   onClick={() => {
                     setCurrentStep(Math.max(0, currentStep - 1));
                   }}
                 >
-                  Go back
-                </button>
+                  <span className="text-gray-300 font-light">Go back</span>
+                </AppButton>
               )}
               <div className="spacer grow"> </div>
               {currentStep < allSteps.length - 1 && (
-                <button type="submit">Next Step</button>
+                <AppButton color="info" variant="contained" type="submit">
+                  Next Step
+                </AppButton>
+              )}
+              {currentStep == allSteps.length - 1 && (
+                <AppButton variant="contained" type="submit" color="primary">
+                  Confirm
+                </AppButton>
               )}
             </div>
           </form>

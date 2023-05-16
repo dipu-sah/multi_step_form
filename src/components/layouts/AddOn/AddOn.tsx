@@ -1,11 +1,16 @@
+import { useState } from "react";
 import { AppCheckBox } from "../../UI/AppCheckBox/AppCheckBox";
 
 export function AddOn() {
+  const [selectedAddons, setSelectedAddons] = useState<Record<string, boolean>>(
+    {}
+  );
   return (
     <div>
       <h2>Pick add-ons</h2>
       <div className="flex flex-col box-border p-4">
         <AppCheckBox
+          requried={true}
           options={[
             {
               title: "Online Service",
@@ -23,8 +28,21 @@ export function AddOn() {
               price: 20,
             },
           ].map((e) => {
+            const value = e.title;
             return {
               ...e,
+              checked: !!selectedAddons[e.title],
+              onChange: (_, v) => {
+                setSelectedAddons(({ ...o }) => {
+                  if (v) {
+                    o[value] = true;
+                  } else {
+                    delete o[value];
+                  }
+                  return o;
+                });
+              },
+              value,
               label: (
                 <div className="flex flex-row w-full justify-center items-center">
                   <h2 className="flex flex-col grow">
@@ -37,20 +55,26 @@ export function AddOn() {
                 </div>
               ),
               sx: {
-                height: "4.5rem",
-                ":checked": {
-                  "& .MuiFormControl-root": {
-                    border: "2px solid red",
-                  },
+                ".MuiFormControlLabel-asterisk": {
+                  display: "none",
                 },
-                border: "2px solid grey",
+                height: "4.5rem",
+
+                ...(value in selectedAddons
+                  ? {
+                      border: "1px solid #483EFF",
+                      background: "#483EFF10",
+                    }
+                  : {
+                      border: "1px solid grey",
+                      background: "#f5f5f5",
+                    }),
                 borderRadius: "0.4rem",
-                background: "#f5f5f5",
                 "& .MuiFormControlLabel-label": {
                   width: "100%",
                 },
                 boxSizing: "border-box",
-                padding: "0.5rem",
+                padding: "0.5rem 1rem",
               },
             };
           })}

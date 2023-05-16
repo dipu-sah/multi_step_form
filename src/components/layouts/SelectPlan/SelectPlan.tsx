@@ -3,8 +3,97 @@ import { AppRadio } from "../../UI/AppRadio/AppRadio";
 import { AppSwitch } from "../../UI/AppSwitch/AppSwitch";
 
 export function SelectPlan() {
-  const [isMonthly, setIsMonthly] = useState<boolean>(true);
-  const [currentPlan, setCurrentPlan] = useState();
+  const [isMonthly, setIsMonthly] = useState<"monthly" | "yearly">("monthly");
+  const [currentPlan, setCurrentPlan] = useState<string>("");
+  const allPlans = [
+    {
+      planType: "monthly",
+      label: "cszc",
+      value: "Monthly Arcade",
+      disableRipple: true,
+      required: true,
+
+      icon: (
+        <PlanDetails
+          imageSrc="/assets/images/icon-arcade.svg"
+          planName="Arcade"
+          price="9/mo"
+        />
+      ),
+    },
+    {
+      planType: "monthly",
+      label: "cszc",
+      value: "Monthly Advanced",
+      disableRipple: true,
+
+      icon: (
+        <PlanDetails
+          imageSrc="/assets/images/icon-advanced.svg"
+          planName="Advanced"
+          price="12/mo"
+        />
+      ),
+    },
+    {
+      planType: "monthly",
+      label: "cszc",
+      value: "Monthly Pro",
+      disableRipple: true,
+
+      icon: (
+        <PlanDetails
+          imageSrc="/assets/images/icon-pro.svg"
+          planName="Pro"
+          price="15/mo"
+        />
+      ),
+    },
+    {
+      planType: "yearly",
+      label: "cszc",
+      value: "Yearly Arcade",
+      disableRipple: true,
+
+      icon: (
+        <PlanDetails
+          imageSrc="/assets/images/icon-arcade.svg"
+          planName="Arcade"
+          price="90/yr"
+          freeMonths={2}
+        />
+      ),
+    },
+    {
+      planType: "yearly",
+      label: "cszc",
+      value: "Yearly Advanced",
+      disableRipple: true,
+
+      icon: (
+        <PlanDetails
+          imageSrc="/assets/images/icon-advanced.svg"
+          planName="Advanced"
+          price="120/yr"
+          freeMonths={2}
+        />
+      ),
+    },
+    {
+      planType: "yearly",
+      label: "cszc",
+      value: "Yearly Pro",
+      disableRipple: true,
+      icon: (
+        <PlanDetails
+          imageSrc="/assets/images/icon-pro.svg"
+          planName="Pro"
+          price="150/yr"
+          freeMonths={2}
+        />
+      ),
+    },
+  ];
   function PlanDetails({
     planName,
     price,
@@ -17,7 +106,7 @@ export function SelectPlan() {
     freeMonths?: number;
   }) {
     return (
-      <div className="h-32 w-[6.8rem] box-border">
+      <div className="h-32 aspect-square box-border p-4">
         <figure className="flex flex-col gap-8">
           <img src={imageSrc} className="h-10 w-10 " />
           <caption className="text-left flex flex-col gap-2">
@@ -38,113 +127,43 @@ export function SelectPlan() {
       {isMonthly && (
         <AppRadio
           value={currentPlan}
-          options={[
-            {
-              label: "cszc",
-              value: "Monthly Arcade",
-              disableRipple: true,
-              required: true,
-
-              icon: (
-                <PlanDetails
-                  imageSrc="/assets/images/icon-arcade.svg"
-                  planName="Arcade"
-                  price="9/mo"
-                />
-              ),
-            },
-            {
-              label: "cszc",
-              value: "Monthly Advanced",
-              disableRipple: true,
-
-              icon: (
-                <PlanDetails
-                  imageSrc="/assets/images/icon-advanced.svg"
-                  planName="Advanced"
-                  price="12/mo"
-                />
-              ),
-            },
-            {
-              label: "cszc",
-              value: "Monthly Pro",
-              disableRipple: true,
-
-              icon: (
-                <PlanDetails
-                  imageSrc="/assets/images/icon-pro.svg"
-                  planName="Pro"
-                  price="15/mo"
-                />
-              ),
-            },
-          ].map((e) => ({
-            ...e,
-            sx: {
-              ":hover": {
-                border: "2px solid blue",
-                borderRadius: "1rem",
+          onChange={(e, v) => {
+            setCurrentPlan(v);
+          }}
+          options={allPlans
+            .filter(
+              (e) =>
+                isMonthly && e.planType.toLowerCase() == isMonthly.toLowerCase()
+            )
+            .map((e) => ({
+              ...e,
+              sx: {
+                height: "11rem",
+                ...(currentPlan != e.value
+                  ? { border: "1px solid grey" }
+                  : { border: "1px solid blue", backgroundColor: "#483EFF10" }),
+                borderRadius: "0.8rem",
+                ":hover": {
+                  ...(currentPlan != e.value
+                    ? { border: "1px solid blue" }
+                    : {}),
+                },
+                alignItems: "unset ",
+                "& .Mui-checked": {
+                  border: "1px solid red",
+                },
               },
-              alignItems: "unset ",
-              "& .Mui-checked": {
-                border: "2px solid red",
-              },
-            },
-
-            checkedIcon: e.icon,
-          }))}
+              checkedIcon: e.icon,
+            }))}
         >
           <p className="h-16">
             You have the option of monthly or yearly billing
           </p>
         </AppRadio>
       )}
-      {!isMonthly && (
+      {/* {!isMonthly && (
         <AppRadio
-          options={[
-            {
-              label: "cszc",
-              value: "Yearly Arcade",
-              disableRipple: true,
-
-              icon: (
-                <PlanDetails
-                  imageSrc="/assets/images/icon-arcade.svg"
-                  planName="Arcade"
-                  price="90/yr"
-                  freeMonths={2}
-                />
-              ),
-            },
-            {
-              label: "cszc",
-              value: "Yearly Advanced",
-              disableRipple: true,
-
-              icon: (
-                <PlanDetails
-                  imageSrc="/assets/images/icon-advanced.svg"
-                  planName="Advanced"
-                  price="120/yr"
-                  freeMonths={2}
-                />
-              ),
-            },
-            {
-              label: "cszc",
-              value: "Yearly Pro",
-              disableRipple: true,
-              icon: (
-                <PlanDetails
-                  imageSrc="/assets/images/icon-pro.svg"
-                  planName="Pro"
-                  price="150/yr"
-                  freeMonths={2}
-                />
-              ),
-            },
-          ].map((e) => ({
+          options={[].map((e) => ({
             ...e,
             sx: {
               height: "10rem",
@@ -153,7 +172,7 @@ export function SelectPlan() {
                 borderRadius: "1rem",
               },
               alignItems: "unset ",
-              "& .Mui-checked": {
+              "&.Mui-checked": {
                 border: "2px solid red",
               },
             },
@@ -165,12 +184,16 @@ export function SelectPlan() {
             You have the option of monthly or yearly billing
           </p>
         </AppRadio>
-      )}
+      )} */}
       <AppSwitch
         onLabel={"Monthly"}
         offLabel={"Yearly"}
         onChange={(e, v) => {
-          setIsMonthly(v);
+          if (!v) {
+            setIsMonthly("monthly");
+          } else {
+            setIsMonthly("yearly");
+          }
         }}
         value={isMonthly}
       />

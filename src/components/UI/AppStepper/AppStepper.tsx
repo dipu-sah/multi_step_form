@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import { Settings } from "@mui/icons-material";
 import {
   Stepper,
   Box,
@@ -9,27 +9,26 @@ import {
   StepContent,
   Paper,
 } from "@mui/material";
+import { AppStepperProps } from "./AppStepperProps";
 export function AppStepper({
   steps,
   children = <></>,
   currentStep = 0,
-}: {
-  children?: ReactNode[] | ReactNode;
-  currentStep?: number;
-  steps: {
-    content: ReactNode;
-    label: ReactNode;
-    description?: ReactNode;
-  }[];
-}) {
+  ...steppperProps
+}: AppStepperProps) {
   return (
     <Box sx={{ maxWidth: 400 }}>
-      <Stepper activeStep={currentStep} orientation="vertical" color="white">
-        {steps.map((step, index) => (
-          <Step key={index}>
+      <Stepper
+        activeStep={currentStep}
+        orientation="vertical"
+        color="white"
+        {...steppperProps}
+      >
+        {steps.map(({ description, label, ...step }, index) => (
+          <Step key={index} {...step}>
             <StepLabel>
-              {step.label}
-              {step.description}
+              {label}
+              {description}
             </StepLabel>
             <StepContent>
               <Box sx={{ mb: 2 }}>
