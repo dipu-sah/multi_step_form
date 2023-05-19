@@ -9,96 +9,6 @@ export function SelectPlan({
   values,
   allPlans,
 }: SelectPlanProps<any>) {
-  const [isMonthly, setIsMonthly] = useState<"monthly" | "yearly">("monthly");
-  // const allPlans = [
-  //   {
-  //     planType: "monthly",
-  //     label: "cszc",
-  //     value: "Arcade(Monthly)",
-  //     disableRipple: true,
-  //     required: true,
-
-  //     icon: (
-  //       <PlanDetails
-  //         imageSrc="/assets/images/icon-arcade.svg"
-  //         planName="Arcade"
-  //         price="9/mo"
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     planType: "monthly",
-  //     label: "cszc",
-  //     value: "Advanced(Monthly)",
-  //     disableRipple: true,
-
-  //     icon: (
-  //       <PlanDetails
-  //         imageSrc="/assets/images/icon-advanced.svg"
-  //         planName="Advanced"
-  //         price="12/mo"
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     planType: "monthly",
-  //     label: "cszc",
-  //     value: "Pro(Monthly)",
-  //     disableRipple: true,
-
-  //     icon: (
-  //       <PlanDetails
-  //         imageSrc="/assets/images/icon-pro.svg"
-  //         planName="Pro"
-  //         price="15/mo"
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     planType: "yearly",
-  //     label: "cszc",
-  //     value: "Arcade(Yearly)",
-  //     disableRipple: true,
-
-  //     icon: (
-  //       <PlanDetails
-  //         imageSrc="/assets/images/icon-arcade.svg"
-  //         planName="Arcade"
-  //         price="90/yr"
-  //         freeMonths={2}
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     planType: "yearly",
-  //     label: "cszc",
-  //     value: "Advanced(Yearly)",
-  //     disableRipple: true,
-
-  //     icon: (
-  //       <PlanDetails
-  //         imageSrc="/assets/images/icon-advanced.svg"
-  //         planName="Advanced"
-  //         price="120/yr"
-  //         freeMonths={2}
-  //       />
-  //     ),
-  //   },
-  //   {
-  //     planType: "yearly",
-  //     label: "cszc",
-  //     value: "Pro(Yearly)",
-  //     disableRipple: true,
-  //     icon: (
-  //       <PlanDetails
-  //         imageSrc="/assets/images/icon-pro.svg"
-  //         planName="Pro"
-  //         price="150/yr"
-  //         freeMonths={2}
-  //       />
-  //     ),
-  //   },
-  // ];
   function PlanDetails({
     planName,
     price,
@@ -146,12 +56,6 @@ export function SelectPlan({
         }}
         sx={{ gap: "0.5rem" }}
         options={allPlans
-          .filter((e) => {
-            if (values.isMonthly) {
-              return e.planType == "yearly";
-            }
-            return e.planType == "monthly";
-          })
           .map((e) => {
             return {
               ...e,
@@ -159,7 +63,7 @@ export function SelectPlan({
                 <PlanDetails
                   imageSrc={e.imgSrc}
                   planName={e.label}
-                  price={e.price}
+                  price={e.price + (e.planType == "monthly" ? "/mo" : "/yr")}
                   freeMonths={e.freeMonths}
                 />
               ),
@@ -197,6 +101,7 @@ export function SelectPlan({
         onChange={(e, v) => {
           onChange({
             ...values,
+            planType: undefined,
             isMonthly: v,
           });
         }}

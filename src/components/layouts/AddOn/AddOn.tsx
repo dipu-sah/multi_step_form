@@ -36,7 +36,9 @@ export function AddOn({ allAvailableAddons, ...props }: AddOnProps<any>) {
                       {e.description}
                     </span>
                   </h2>
-                  <span className="text-purple-500 text-xs">+{e.price}</span>
+                  <span className="text-purple-500 text-xs">
+                    +{e.price}/{!props.values.isMonthly ? "mo" : "yr"}
+                  </span>
                 </div>
               ),
               sx: {

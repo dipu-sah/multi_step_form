@@ -2,7 +2,7 @@ import { ControllerProps } from "react-hook-form";
 export interface iAddOns {
   title: string;
   description: string;
-  price: string;
+  price: number;
   planType: "monthly" | "yearly";
   value: string;
 }

@@ -31,27 +31,27 @@ function App() {
       planType: "monthly",
       label: "Arcade",
       value: "Arcade(Monthly)",
-      price: "9/mo",
+      price: 9,
       imgSrc: "/assets/images/icon-arcade.svg",
     },
     {
       planType: "monthly",
       label: "Advanced",
-      price: "12/mo",
+      price: 12,
       value: "Advanced(Monthly)",
       imgSrc: "/assets/images/icon-advanced.svg",
     },
     {
       planType: "monthly",
       label: "Pro",
-      price: "15/mo",
+      price: 15,
       value: "Pro(Monthly)",
       imgSrc: "/assets/images/icon-pro.svg",
     },
     {
       planType: "yearly",
       label: "Arcade",
-      price: "90/yr",
+      price: 90,
       value: "Arcade(Yearly)",
       freeMonths: 2,
       imgSrc: "/assets/images/icon-arcade.svg",
@@ -59,7 +59,7 @@ function App() {
     {
       planType: "yearly",
       label: "Advanced",
-      price: "120/yr",
+      price: 120,
       value: "Advanced(Yearly)",
       freeMonths: 2,
       imgSrc: "/assets/images/icon-advanced.svg",
@@ -67,7 +67,7 @@ function App() {
     {
       planType: "yearly",
       label: "Pro",
-      price: "150/yr",
+      price: 150,
       value: "Pro(Yearly)",
       freeMonths: 2,
       imgSrc: "/assets/images/icon-pro.svg",
@@ -77,42 +77,42 @@ function App() {
     {
       title: "Online Service",
       description: "Online Service",
-      price: "1/mo",
+      price: 1,
       planType: "monthly",
       value: "Online Service (monthly)",
     },
     {
       title: "Larger storage",
       description: "Extra 1TB of cloud save",
-      price: "2/mo",
+      price: 2,
       planType: "monthly",
       value: "Larger storage (monthly)",
     },
     {
       title: "Customizable profile",
       description: "Custom theme on your profile",
-      price: "2/mo",
+      price: 2,
       planType: "monthly",
       value: "Customizable profile (monthly)",
     },
     {
       title: "Online Service",
       description: "Online Service",
-      price: "10/yr",
+      price: 10,
       planType: "yearly",
       value: "Online Service (yearly)",
     },
     {
       title: "Larger storage",
       description: "Extra 1TB of cloud save",
-      price: "20/yr",
+      price: 20,
       planType: "yearly",
       value: "Larger storage (yearly)",
     },
     {
       title: "Customizable profile",
       description: "Custom theme on your profile",
-      price: "20/yr",
+      price: 20,
       planType: "yearly",
       value: "Customizable profile (yearly)",
     },
@@ -153,7 +153,12 @@ function App() {
     {
       content: (
         <SelectPlan
-          allPlans={allPlans}
+          allPlans={allPlans.filter((e) => {
+            if (formState.getValues("isMonthly")) {
+              return e.planType == "yearly";
+            }
+            return e.planType == "monthly";
+          })}
           values={formState.getValues()}
           control={formState.control}
           onChange={(e) => {

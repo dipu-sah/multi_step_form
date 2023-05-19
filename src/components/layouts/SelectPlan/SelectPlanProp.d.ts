@@ -4,7 +4,7 @@ export interface iPlan {
   label: string;
   value: string;
   freeMonths?: number;
-  price: string;
+  price: number;
   imgSrc: string;
 }
 export interface SelectPlanProps<T extends Record<string, any>> {
