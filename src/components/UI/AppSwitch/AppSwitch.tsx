@@ -3,7 +3,6 @@ import { AppSwitchProps } from "./AppSwitchProps";
 import { useState } from "react";
 
 export function AppSwitch({ onLabel, offLabel, ...props }: AppSwitchProps) {
-  const [isChecked, setIsChecked] = useState(!!props.checked);
   return (
     <FormControl
       sx={{
@@ -15,16 +14,7 @@ export function AppSwitch({ onLabel, offLabel, ...props }: AppSwitchProps) {
       fullWidth
     >
       {(onLabel || !offLabel) && <FormLabel>{onLabel}</FormLabel>}
-      <Switch
-        {...props}
-        checked={isChecked}
-        onChange={(e, v) => {
-          setIsChecked(v);
-          if (props.onChange) {
-            props.onChange(e, v);
-          }
-        }}
-      />
+      <Switch {...props} />
       {offLabel && <FormLabel>{offLabel}</FormLabel>}
     </FormControl>
   );

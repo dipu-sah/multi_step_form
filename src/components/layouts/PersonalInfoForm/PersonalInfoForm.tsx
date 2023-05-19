@@ -1,6 +1,13 @@
+import { useState } from "react";
 import { AppTextField } from "../../UI/AppTextField/AppTextField";
+import { PersonalInfoFormProps } from "./PersonalInfoFormProps";
+import { useForm } from "react-hook-form";
 
-export function PersonalInfoForm() {
+export function PersonalInfoForm<T extends Record<string, any>>({
+  control,
+  values,
+  onChange = () => {},
+}: PersonalInfoFormProps<T>) {
   return (
     <div className="flex flex-col gap-4">
       <h2 className="text-3xl font-bold">Personal Info</h2>
@@ -8,30 +15,69 @@ export function PersonalInfoForm() {
         Please provide your name, email address and phone number
       </p>
       <AppTextField
-        // required={true}
+        rules={{
+          required: {
+            value: true,
+            message: "This field is required",
+          },
+        }}
+        name="name"
+        control={control}
         InputProps={{
           placeholder: "Name",
-          // required: true,
+        }}
+        onChange={(e) => {
+          onChange({
+            ...values,
+            name: e,
+          });
         }}
       >
         Name
       </AppTextField>
       <AppTextField
-        // required={true}
+        rules={{
+          required: {
+            value: true,
+            message: "This field is required",
+          },
+          pattern: {
+            value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            message: "Please provide a E-mail",
+          },
+        }}
+        name="email"
+        control={control}
         InputProps={{
           placeholder: "Email Address",
-          // required: true,
-          type: "email",
+        }}
+        onChange={(e) => {
+          onChange({
+            ...values,
+            email: e,
+          });
         }}
       >
         Email Address
       </AppTextField>
       <AppTextField
-        // required={true}
+        rules={{
+          required: {
+            value: true,
+            message: "This field is required",
+          },
+        }}
+        name="mobile"
+        control={control}
         InputProps={{
           placeholder: "eg +1 234 567 890",
-          // required: true,
           type: "mobile",
+        }}
+        onChange={(e) => {
+          onChange({
+            ...values,
+            mobile: e,
+          });
         }}
       >
         Phone Number

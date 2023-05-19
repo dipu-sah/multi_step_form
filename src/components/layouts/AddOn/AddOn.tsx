@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { AppCheckBox } from "../../UI/AppCheckBox/AppCheckBox";
+import { AddOnProps } from "./AddOnProps";
 
-export function AddOn() {
+export function AddOn({ allAvailableAddons, ...props }: AddOnProps<any>) {
   const [selectedAddons, setSelectedAddons] = useState<Record<string, boolean>>(
     {}
   );
@@ -10,39 +11,23 @@ export function AddOn() {
       <h2>Pick add-ons</h2>
       <div className="flex flex-col box-border p-4">
         <AppCheckBox
-          requried={true}
-          options={[
-            {
-              title: "Online Service",
-              description: "Online Service",
-              price: 10,
+          values={props.values["selectedAddOns"]}
+          onChange={(e) => {
+            props.onChange(e);
+          }}
+          name={"selectedAddOns"}
+          control={props.control}
+          rules={{
+            required: {
+              message: "Please select a plan",
+              value: true,
             },
-            {
-              title: "Larger storage",
-              description: "Extra 1TB of cloud save",
-              price: 20,
-            },
-            {
-              title: "Customizable profile",
-              description: "Custom theme on your profile",
-              price: 20,
-            },
-          ].map((e) => {
-            const value = e.title;
+          }}
+          options={allAvailableAddons.map((e) => {
+            const value = e.value;
             return {
               ...e,
               checked: !!selectedAddons[e.title],
-              onChange: (_, v) => {
-                setSelectedAddons(({ ...o }) => {
-                  if (v) {
-                    o[value] = true;
-                  } else {
-                    delete o[value];
-                  }
-                  return o;
-                });
-              },
-              value,
               label: (
                 <div className="flex flex-row w-full justify-center items-center">
                   <h2 className="flex flex-col grow">
@@ -51,7 +36,7 @@ export function AddOn() {
                       {e.description}
                     </span>
                   </h2>
-                  <span className="text-purple-500 text-xs">+{e.price}/yr</span>
+                  <span className="text-purple-500 text-xs">+{e.price}</span>
                 </div>
               ),
               sx: {

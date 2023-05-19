@@ -5,25 +5,128 @@ import { PersonalInfoForm } from "./components/layouts/PersonalInfoForm/Personal
 import { SelectPlan } from "./components/layouts/SelectPlan/SelectPlan";
 import { AddOn } from "./components/layouts/AddOn/AddOn";
 import { Summary } from "./components/layouts/Summary/Summary";
-import { AppTextField } from "./components/UI/AppTextField/AppTextField";
 import { AppButton } from "./components/UI/AppButton/AppButton";
 import { AppStepperProps } from "./components/UI/AppStepper/AppStepperProps";
+import { Control, useForm } from "react-hook-form";
+import { PlanDetails } from "./@types/Plan";
+import { AddOnDetails } from "./@types/AddOns";
+import { PersonalInfo } from "./@types/PersonalInfo";
+import { iPlan } from "./components/layouts/SelectPlan/SelectPlanProp";
+import { iAddOns } from "./components/layouts/AddOn/AddOnProps";
 function App() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phoneNumber: "",
-    planType: {
+  const formState = useForm<PersonalInfo & PlanDetails & AddOnDetails>({
+    defaultValues: {
       name: "",
-      price: "",
-      type: "",
+      email: "",
+      mobile: "",
+      planType: "",
+      isMonthly: true,
+      selectedAddOns: [],
     },
-    addOne: [],
+    mode: "all",
   });
+  const allPlans: iPlan[] = [
+    {
+      planType: "monthly",
+      label: "Arcade",
+      value: "Arcade(Monthly)",
+      price: "9/mo",
+    },
+    {
+      planType: "monthly",
+      label: "Advanced",
+      price: "12/mo",
+      value: "Advanced(Monthly)",
+    },
+    {
+      planType: "monthly",
+      label: "Pro",
+      price: "15/mo",
+      value: "Pro(Monthly)",
+    },
+    {
+      planType: "yearly",
+      label: "Arcade",
+      price: "90/yr",
+      value: "Arcade(Yearly)",
+      freeMonths: 2,
+    },
+    {
+      planType: "yearly",
+      label: "Advanced",
+      price: "120/yr",
+      value: "Advanced(Yearly)",
+      freeMonths: 2,
+    },
+    {
+      planType: "yearly",
+      label: "Pro",
+      price: "150/yr",
+      value: "Pro(Yearly)",
+      freeMonths: 2,
+    },
+  ];
+  const allAvailableAddons: iAddOns[] = [
+    {
+      title: "Online Service",
+      description: "Online Service",
+      price: "1/mo",
+      planType: "monthly",
+      value: "Online Service (monthly)",
+    },
+    {
+      title: "Larger storage",
+      description: "Extra 1TB of cloud save",
+      price: "2/mo",
+      planType: "monthly",
+      value: "Larger storage (monthly)",
+    },
+    {
+      title: "Customizable profile",
+      description: "Custom theme on your profile",
+      price: "2/mo",
+      planType: "monthly",
+      value: "Customizable profile (monthly)",
+    },
+    {
+      title: "Online Service",
+      description: "Online Service",
+      price: "10/yr",
+      planType: "yearly",
+      value: "Online Service (yearly)",
+    },
+    {
+      title: "Larger storage",
+      description: "Extra 1TB of cloud save",
+      price: "20/yr",
+      planType: "yearly",
+      value: "Larger storage (yearly)",
+    },
+    {
+      title: "Customizable profile",
+      description: "Custom theme on your profile",
+      price: "20/yr",
+      planType: "yearly",
+      value: "Customizable profile (yearly)",
+    },
+  ];
   const allSteps: AppStepperProps["steps"] = [
     {
-      content: <PersonalInfoForm />,
+      content: (
+        <>
+          <PersonalInfoForm
+            values={formState.getValues()}
+            control={formState.control}
+            onChange={(e) => {
+              formState.reset({
+                ...formState.getValues(),
+                ...e,
+              });
+            }}
+          />
+        </>
+      ),
       label: <p className="text-white font-thin">Step 1</p>,
       description: <p className=" font-bold text-white">Your Info</p>,
       labelProps: {
@@ -42,7 +145,24 @@ function App() {
       },
     },
     {
-      content: <SelectPlan></SelectPlan>,
+      content: (
+        <SelectPlan
+          allPlans={allPlans}
+          values={formState.getValues()}
+          control={formState.control}
+          onChange={(e) => {
+            formState.reset({
+              ...formState.getValues(),
+              ...e,
+              planType: e.planType,
+              isMonthly: e.isMonthly,
+              ...(formState.getValues("isMonthly") != e.isMonthly
+                ? { selectedAddOns: [] }
+                : {}),
+            });
+          }}
+        />
+      ),
       label: <p className="text-white font-thin">Step 2</p>,
       description: <p className=" font-bold text-white">Select Plan</p>,
       labelProps: {
@@ -61,7 +181,24 @@ function App() {
       },
     },
     {
-      content: <AddOn></AddOn>,
+      content: (
+        <AddOn
+          control={formState.control}
+          values={formState.getValues()}
+          allAvailableAddons={allAvailableAddons.filter((e) => {
+            if (formState.getValues("isMonthly")) {
+              return e.planType == "monthly";
+            }
+            return e.planType == "yearly";
+          })}
+          onChange={(e) => {
+            formState.reset({
+              ...formState.getValues(),
+              selectedAddOns: e,
+            });
+          }}
+        ></AddOn>
+      ),
       label: <p className="text-white font-thin">Step 3</p>,
       description: <p className=" font-bold text-white">Add-ons </p>,
       labelProps: {
@@ -102,11 +239,11 @@ function App() {
   return (
     <div className="h-screen flex  flex-col items-center justify-center">
       <AppCard
-        className="box-border p-4 flex flex-row gap-2 w-2/5 rounded-3xl  h-[568px]"
-        sx={{ borderRadius: "1.5rem" }}
+        className="box-border p-4 flex flex-row gap-2 w-2/5   h-[568px]"
+        sx={{ borderRadius: "1.5rem", minWidth: "50rem" }}
       >
         <aside
-          className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-full w-[274px]`}
+          className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-full w-[274px] rounded-3xl`}
         >
           <AppStepper
             currentStep={currentStep}
@@ -122,10 +259,9 @@ function App() {
         <main className="flex flex-col grow box-border px-8 py-4">
           <form
             className="flex flex-col gap-2 w-full h-full "
-            onSubmit={(e) => {
-              e.preventDefault();
+            onSubmit={formState.handleSubmit((e: any) => {
               setCurrentStep(Math.min(allSteps.length - 1, currentStep + 1));
-            }}
+            })}
           >
             <section className="h-full overflow-scroll grow h-[568px]">
               {allSteps[currentStep].content}
