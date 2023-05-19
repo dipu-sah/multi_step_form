@@ -243,7 +243,7 @@ function App() {
         sx={{ borderRadius: "1.5rem", minWidth: "50rem" }}
       >
         <aside
-          className={`bg-cover bg-[url('http://localhost:3000/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-full w-[274px] rounded-3xl`}
+          className={`bg-cover bg-[url(${location.hostname}'/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-full w-[274px] rounded-3xl`}
         >
           <AppStepper
             currentStep={currentStep}
