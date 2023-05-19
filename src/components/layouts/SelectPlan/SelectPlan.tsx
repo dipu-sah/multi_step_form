@@ -115,8 +115,8 @@ export function SelectPlan({
         <figure className="flex flex-col gap-8">
           <img src={imageSrc} className="h-8 w-8 " />
           <caption className="text-left flex flex-col gap-2">
-            <h2>{planName}</h2>
-            <p className="text-xs text-gray-500">${price}</p>
+            <span>{planName}</span>
+            <span className="text-xs text-gray-500">${price}</span>
             {freeMonths && (
               <p className="text-sm text-black">{freeMonths} months free</p>
             )}
