@@ -197,7 +197,7 @@ function App() {
           control={formState.control}
           values={formState.getValues()}
           allAvailableAddons={allAvailableAddons.filter((e) => {
-            if (formState.getValues("isMonthly")) {
+            if (!formState.getValues("isMonthly")) {
               return e.planType == "monthly";
             }
             return e.planType == "yearly";
@@ -228,7 +228,25 @@ function App() {
       },
     },
     {
-      content: <Summary></Summary>,
+      content: (
+        <Summary
+          onPlanChangeClick={() => {
+            setCurrentStep(1);
+          }}
+          addOns={allAvailableAddons.filter((e) =>
+            formState.getValues("selectedAddOns").includes(e.value)
+          )}
+          planType={formState.getValues("isMonthly") ? "yearly" : "monthly"}
+          planDetails={{
+            name:
+              allPlans.find((e) => e.value == formState.getValues("planType"))
+                ?.value || "",
+            price:
+              allPlans.find((e) => e.value == formState.getValues("planType"))
+                ?.price || 0,
+          }}
+        />
+      ),
       label: <p className="text-white font-thin">Step 4</p>,
       description: <p className=" font-bold text-white">Summary</p>,
       labelProps: {
@@ -297,12 +315,26 @@ function App() {
               )}
               <div className="spacer grow"> </div>
               {currentStep < allSteps.length - 1 && (
-                <AppButton color="info" variant="contained" type="submit">
+                <AppButton
+                  color="info"
+                  variant="contained"
+                  type="submit"
+                  sx={{
+                    background: "#473dff",
+                  }}
+                >
                   Next Step
                 </AppButton>
               )}
               {currentStep == allSteps.length - 1 && (
-                <AppButton variant="contained" type="submit" color="primary">
+                <AppButton
+                  variant="contained"
+                  type="submit"
+                  color="primary"
+                  sx={{
+                    background: "#473dff",
+                  }}
+                >
                   Confirm
                 </AppButton>
               )}

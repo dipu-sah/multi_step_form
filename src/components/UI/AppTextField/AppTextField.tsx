@@ -21,7 +21,9 @@ export const AppTextField = function <T extends string>({
           <FormLabel className={"flex flex-row flex-wrap "}>
             <span className="grow">{children}</span>
             {!!fieldState.error && (
-              <span className="text-red-800">{fieldState.error?.message}</span>
+              <span className="text-strawberry-red">
+                {fieldState.error?.message}
+              </span>
             )}
           </FormLabel>
           <TextField

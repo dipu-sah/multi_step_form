@@ -32,7 +32,9 @@ export function AppCheckBox({
         <FormControl fullWidth className="flex flex-col gap-4" ref={field.ref}>
           <FormLabel className="flex flex-row flex-wrap">
             <span> {props.label}</span>
-            <span className="text-red-800">{fieldState.error?.message}</span>
+            <span className="text-strawberry-red">
+              {fieldState.error?.message}
+            </span>
           </FormLabel>
           {props.options?.map((e, index) => (
             <FormControlLabel
