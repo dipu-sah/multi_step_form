@@ -157,7 +157,7 @@ export function SelectPlan({
               ...e,
               icon: (
                 <PlanDetails
-                  imageSrc="/assets/images/icon-pro.svg"
+                  imageSrc={e.imgSrc}
                   planName={e.label}
                   price={e.price}
                   freeMonths={e.freeMonths}

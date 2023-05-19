@@ -5,6 +5,7 @@ export interface iPlan {
   value: string;
   freeMonths?: number;
   price: string;
+  imgSrc: string;
 }
 export interface SelectPlanProps<T extends Record<string, any>> {
   onChange: (e: T) => void;

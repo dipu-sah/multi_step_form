@@ -14,7 +14,7 @@ import { PersonalInfo } from "./@types/PersonalInfo";
 import { iPlan } from "./components/layouts/SelectPlan/SelectPlanProp";
 import { iAddOns } from "./components/layouts/AddOn/AddOnProps";
 function App() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(1);
   const formState = useForm<PersonalInfo & PlanDetails & AddOnDetails>({
     defaultValues: {
       name: "",
@@ -32,18 +32,21 @@ function App() {
       label: "Arcade",
       value: "Arcade(Monthly)",
       price: "9/mo",
+      imgSrc: "/assets/images/icon-arcade.svg",
     },
     {
       planType: "monthly",
       label: "Advanced",
       price: "12/mo",
       value: "Advanced(Monthly)",
+      imgSrc: "/assets/images/icon-advanced.svg",
     },
     {
       planType: "monthly",
       label: "Pro",
       price: "15/mo",
       value: "Pro(Monthly)",
+      imgSrc: "/assets/images/icon-pro.svg",
     },
     {
       planType: "yearly",
@@ -51,6 +54,7 @@ function App() {
       price: "90/yr",
       value: "Arcade(Yearly)",
       freeMonths: 2,
+      imgSrc: "/assets/images/icon-arcade.svg",
     },
     {
       planType: "yearly",
@@ -58,6 +62,7 @@ function App() {
       price: "120/yr",
       value: "Advanced(Yearly)",
       freeMonths: 2,
+      imgSrc: "/assets/images/icon-advanced.svg",
     },
     {
       planType: "yearly",
@@ -65,6 +70,7 @@ function App() {
       price: "150/yr",
       value: "Pro(Yearly)",
       freeMonths: 2,
+      imgSrc: "/assets/images/icon-pro.svg",
     },
   ];
   const allAvailableAddons: iAddOns[] = [
@@ -236,18 +242,25 @@ function App() {
       },
     },
   ];
+  const backgroundImageSrc = "/assets/images/bg-sidebar-desktop.svg";
   return (
     <div className="h-screen flex  flex-col items-center justify-center">
       <AppCard
-        className="box-border p-4 flex flex-row gap-2 w-2/5   h-[568px]"
+        className="box-border p-4 flex flex-row gap-2 w-2/5 h-[32rem]"
         sx={{ borderRadius: "1.5rem", minWidth: "50rem" }}
       >
         <aside
-          className={`bg-cover bg-[url(${location.hostname}'/assets/images/bg-sidebar-desktop.svg')] box-border p-4 text-white h-full w-[274px] rounded-3xl`}
+          style={{
+            backgroundImage: `url('${backgroundImageSrc}')`,
+          }}
+          className={
+            "bg-cover box-border text-white h-full h-[30rem] w-[15rem] rounded-3xl"
+          }
         >
           <AppStepper
             currentStep={currentStep}
             steps={allSteps}
+            className="px-4"
             connector={<div className="h-4 aspect-square"></div>}
             sx={{
               ".MuiStepContent-root": {
