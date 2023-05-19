@@ -14,7 +14,7 @@ import { PersonalInfo } from "./@types/PersonalInfo";
 import { iPlan } from "./components/layouts/SelectPlan/SelectPlanProp";
 import { iAddOns } from "./components/layouts/AddOn/AddOnProps";
 function App() {
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const formState = useForm<PersonalInfo & PlanDetails & AddOnDetails>({
     defaultValues: {
       name: "",
