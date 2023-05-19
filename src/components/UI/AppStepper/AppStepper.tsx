@@ -1,4 +1,3 @@
-import { Settings } from "@mui/icons-material";
 import {
   Stepper,
   Box,
