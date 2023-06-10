@@ -38,63 +38,63 @@ export function SelectPlan({
   return (
     <div className="flex flex-col gap-4">
       <h2>Select Your Plan</h2>
-
-      <AppRadio
-        name="planType"
-        control={control}
-        onChange={(e, v) => {
-          onChange({
-            ...values,
-            planType: v,
-          });
-        }}
-        rules={{
-          required: {
-            value: true,
-            message: "Please select a Plan",
-          },
-        }}
-        sx={{ gap: "0.5rem" }}
-        options={allPlans
-          .map((e) => {
-            return {
-              ...e,
-              icon: (
-                <PlanDetails
-                  imageSrc={e.imgSrc}
-                  planName={e.label}
-                  price={e.price + (e.planType == "monthly" ? "/mo" : "/yr")}
-                  freeMonths={e.freeMonths}
-                />
-              ),
-            };
-          })
-          .map((e) => ({
-            ...e,
-            required: false,
-            sx: {
-              height: "11rem",
-              aspectRatio: "1/1",
-              ...(values["planType"] != e.value
-                ? { border: "1px solid grey" }
-                : { border: "1px solid blue", backgroundColor: "#483EFF10" }),
-              borderRadius: "0.8rem",
-              ":hover": {
-                ...(values["planType"] != e.value
-                  ? { border: "1px solid blue" }
-                  : {}),
-              },
-              alignItems: "unset ",
-              "& .Mui-checked": {
-                border: "1px solid red",
-              },
+      <div className="h-[18rem] overflow-scroll">
+        <AppRadio
+          name="planType"
+          control={control}
+          onChange={(e, v) => {
+            onChange({
+              ...values,
+              planType: v,
+            });
+          }}
+          rules={{
+            required: {
+              value: true,
+              message: "Please select a Plan",
             },
-            checkedIcon: e.icon,
-          }))}
-      >
-        You have the option of monthly or yearly billing
-      </AppRadio>
-
+          }}
+          sx={{ gap: "0.5rem" }}
+          options={allPlans
+            .map((e) => {
+              return {
+                ...e,
+                icon: (
+                  <PlanDetails
+                    imageSrc={e.imgSrc}
+                    planName={e.label}
+                    price={e.price + (e.planType == "monthly" ? "/mo" : "/yr")}
+                    freeMonths={e.freeMonths}
+                  />
+                ),
+              };
+            })
+            .map((e) => ({
+              ...e,
+              required: false,
+              sx: {
+                height: "11rem",
+                aspectRatio: "1/1",
+                ...(values["planType"] != e.value
+                  ? { border: "1px solid grey" }
+                  : { border: "1px solid blue", backgroundColor: "#483EFF10" }),
+                borderRadius: "0.8rem",
+                ":hover": {
+                  ...(values["planType"] != e.value
+                    ? { border: "1px solid blue" }
+                    : {}),
+                },
+                alignItems: "unset ",
+                "& .Mui-checked": {
+                  border: "1px solid red",
+                },
+              },
+              checkedIcon: e.icon,
+            }))}
+        >
+          You have the option of monthly or yearly billing
+        </AppRadio>
+      </div>
       <AppSwitch
         onLabel={"Monthly"}
         offLabel={"Yearly"}

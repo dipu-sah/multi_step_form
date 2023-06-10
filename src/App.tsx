@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AppCard } from "./components/UI/AppCard/AppCard";
 import { AppStepper } from "./components/UI/AppStepper/AppStepper";
 import { PersonalInfoForm } from "./components/layouts/PersonalInfoForm/PersonalInfoForm";
@@ -15,6 +15,20 @@ import { iPlan } from "./components/layouts/SelectPlan/SelectPlanProp";
 import { iAddOns } from "./components/layouts/AddOn/AddOnProps";
 function App() {
   const [currentStep, setCurrentStep] = useState(0);
+  const [deviceWidth, setDeviceWidth] = useState(getCurrentDimension());
+  function getCurrentDimension() {
+    return window.innerWidth;
+  }
+  useEffect(() => {
+    const updateDimension = () => {
+      setDeviceWidth(getCurrentDimension());
+    };
+    window.addEventListener("resize", updateDimension);
+
+    return () => {
+      window.removeEventListener("resize", updateDimension);
+    };
+  }, [deviceWidth]);
   const formState = useForm<PersonalInfo & PlanDetails & AddOnDetails>({
     defaultValues: {
       name: "",
@@ -254,7 +268,7 @@ function App() {
           return (
             <div
               className={`h-8 aspect-square border-white border-2 border-solid flex items-center justify-center rounded-full ${
-                e.active ? "bg-blue-300 text-black border-0" : ""
+                e.active ? "bg-blue-450 text-black border-0" : ""
               }
           `}
             >
@@ -266,21 +280,28 @@ function App() {
     },
   ];
   const backgroundImageSrc = "/assets/images/bg-sidebar-desktop.svg";
+  const backgroundImageSrcMobile = "/assets/images/bg-sidebar-mobile.svg";
   return (
-    <div className="h-screen flex  flex-col items-center justify-center">
+    <div className="min-h-screen p-8 flex  flex-col items-center justify-center">
       <AppCard
-        className="box-border p-4 flex flex-row gap-2 w-2/5 h-[32rem]"
-        sx={{ borderRadius: "1.5rem", minWidth: "50rem" }}
+        className="box-border p-4 flex md:flex-row flex-col gap-2 md:w-2/5 w-full"
+        sx={{
+          borderRadius: "1.5rem",
+          minWidth: deviceWidth < 768 ? "10rem" : "50rem",
+        }}
       >
         <aside
           style={{
-            backgroundImage: `url('${backgroundImageSrc}')`,
+            backgroundImage: `url('${
+              deviceWidth < 768 ? backgroundImageSrcMobile : backgroundImageSrc
+            }')`,
           }}
           className={
-            "bg-cover box-border text-white h-full h-[30rem] w-[15rem] rounded-3xl"
+            "flex md:items-start items-center md:justify-start justify-center bg-cover box-border text-white h-fit md:h-[30rem] md:w-[15rem] w-full h-0 rounded-3xl"
           }
         >
           <AppStepper
+            orientation={deviceWidth < 768 ? "horizontal" : "vertical"}
             currentStep={currentStep}
             steps={allSteps}
             className="px-4"
@@ -288,6 +309,16 @@ function App() {
             sx={{
               ".MuiStepContent-root": {
                 display: "none",
+              },
+              "&.MuiStepper-root": {
+                flexWrap: "wrap",
+                // gap: "0.5rem",
+                // alignItems: "start",
+                // justifyContent: "start",
+                // justifyItems: "start",
+              },
+              "& .MuiStep-horizontal": {
+                padding: "1rem",
               },
             }}
           />
@@ -299,7 +330,7 @@ function App() {
               setCurrentStep(Math.min(allSteps.length - 1, currentStep + 1));
             })}
           >
-            <section className="h-full overflow-scroll grow h-[568px]">
+            <section className="h-full overflow-scroll grow h-fit">
               {allSteps[currentStep].content}
             </section>
             <div className="flex flex-row">

@@ -17,26 +17,28 @@ export function AddOn({ allAvailableAddons, ...props }: AddOnProps<any>) {
           }}
           name={"selectedAddOns"}
           control={props.control}
-          rules={{
-            required: {
-              message: "Please select a plan",
-              value: true,
-            },
-          }}
+          // rules={{
+          //   required: {
+          //     message: "Please select a plan",
+          //     value: true,
+          //   },
+          // }}
           options={allAvailableAddons.map((e) => {
             const value = e.value;
             return {
               ...e,
               checked: !!selectedAddons[e.title],
               label: (
-                <div className="flex flex-row w-full justify-center items-center">
+                <div className="flex flex-row w-full justify-center items-center flex-wrap  ">
                   <h2 className="flex flex-col grow">
-                    <span className="font-bold text-sm">{e.title}</span>
-                    <span className="text-grey-500 text-xs">
+                    <span className="font-bold text-sm break-all ">
+                      {e.title}
+                    </span>
+                    <span className="text-grey-500 text-xs break-all">
                       {e.description}
                     </span>
                   </h2>
-                  <span className="text-purple-500 text-xs">
+                  <span className="text-purple-500 text-xs text-right grow">
                     +{e.price}/{!props.values.isMonthly ? "mo" : "yr"}
                   </span>
                 </div>
@@ -45,7 +47,7 @@ export function AddOn({ allAvailableAddons, ...props }: AddOnProps<any>) {
                 ".MuiFormControlLabel-asterisk": {
                   display: "none",
                 },
-                height: "4.5rem",
+                minHeight: "4.5rem",
 
                 ...(value in selectedAddons
                   ? {
